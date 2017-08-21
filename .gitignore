@@ -1,0 +1,7 @@
+EscapeRoom/Content/StarterContent/
+EscapeRoom/Intermediate/
+EscapeRoom/Saved/
+*.db
+EscapeRoom/Binaries/
+*.opendb
+*.suo
