@@ -1,7 +1,10 @@
-EscapeRoom/Content/StarterContent/
-EscapeRoom/Intermediate/
-EscapeRoom/Saved/
-*.db
-EscapeRoom/Binaries/
-*.opendb
+*/Build
+*/Binaries
+*/DerivedDataCache
+*/Intermediate
+*/Saved
+EscapeRoom/Content/StarterContent/Textures
+EscapeRoom/Content/StarterContent/HDRI
+EscapeRoom/Content/StarterContent/Audio
+*.VC.db
 *.suo
