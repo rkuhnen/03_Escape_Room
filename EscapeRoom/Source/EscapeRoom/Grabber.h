@@ -29,7 +29,32 @@ private:
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 	UInputComponent* InputComponent = nullptr;
 
+	// Get Player viewpoint
+	void GetPlayerViewPoint();
+
+	
+
 	// Raycast and grab what's in reach.
 	void Grab();
+
+	// Called when grab is released
+	void Release();
+
+	// Activate debug line
+	void ActivateDebug();
+
+	// Find attached physics
+	void FindPhysicsHandleComponent();
+
+	// Setup (assumed) attached Input Component
+	void SetupInputComponent();
+
+	// Return hit for first physics body in reach
+	const FHitResult GetFirstPhysicsBodyInReach();
 	
+	FVector PlayerViewPointLocation;
+	FRotator PlayerViewPointRotation;
+	FVector LineTraceEnd;
+	bool isDebugActive = false;
+
 };
