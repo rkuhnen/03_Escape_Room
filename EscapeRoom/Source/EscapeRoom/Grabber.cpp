@@ -46,17 +46,29 @@ void UGrabber::Grab()
 	UE_LOG(LogTemp, Warning, TEXT("Grab Key Pressed!"))
 
 	/// Line trace and see  if we reach any actors with physics body collision channel set
-	GetFirstPhysicsBodyInReach();
+	auto HitResult = GetFirstPhysicsBodyInReach();
+	auto ComponentToGrab = HitResult.GetComponent();
+	auto ActorHit = HitResult.GetActor();
 
 	/// If we hit something, then attach a physics handle.
-	// TODO attach physics handle
+	if (ActorHit)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ACTOR HIT SUCCESSFULL!"))
+		//  attach physics handle
+		PhysicsHandle->GrabComponent(ComponentToGrab, NAME_None, ComponentToGrab->GetOwner()->GetActorLocation(), true);
+
+	}
+	
+
+
 }
 
 void UGrabber::Release()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grab Key Released!"))
 
-	// TODO release physics handle
+		//  release physics handle
+		PhysicsHandle->ReleaseComponent();
 }
 
 void UGrabber::ActivateDebug()
@@ -118,14 +130,18 @@ void UGrabber::SetupInputComponent()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
 	GetPlayerViewPoint();
+	// if physics handle is attached
+	if (PhysicsHandle->GrabbedComponent)
+	{
+		PhysicsHandle->SetTargetLocation(LineTraceEnd);
+	}
+	// move the object that we're holding each frame
+
 
 	if (isDebugActive)
 	{
 		// Draw a red trace in the world to visualize
-
-		// TODO challenge: add debug line as a function that can be enabled or disabled by the player
 		DrawDebugLine(
 			GetWorld(),
 			PlayerViewPointLocation,
@@ -139,8 +155,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	}
 
 
-	// if physics handle is attached
-		// move the object that we're holding each frame
+
 
 }
 
@@ -173,5 +188,5 @@ const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 
 
 	// ...
-	return FHitResult();
+	return Hit;
 }
