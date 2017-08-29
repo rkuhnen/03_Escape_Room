@@ -21,7 +21,6 @@ void UGrabber::BeginPlay()
 	Super::BeginPlay();
 	FindPhysicsHandleComponent();
 	SetupInputComponent();
-	GetFirstPhysicsBodyInReach();
 }
 
 void UGrabber::GetPlayerViewPoint()
@@ -33,10 +32,7 @@ void UGrabber::GetPlayerViewPoint()
 		OUT PlayerViewPointRotation
 	);
 
-	// Log for testing
-	///UE_LOG(LogTemp, Warning, TEXT("Location = %s, Rotation =%s"), 
-	///	*PlayerViewPointLocation.ToString(), 
-	///	*PlayerViewPointRotation.ToString());
+
 
 	LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
 }
@@ -94,11 +90,7 @@ void UGrabber::FindPhysicsHandleComponent()
 {
 	///Look for attached Physics handle
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	if (PhysicsHandle)
-	{
-		// Physics handle is found
-	}
-	else
+	if (PhysicsHandle == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s Has no Physics Handle."), *(GetOwner()->GetName()));
 	}
@@ -108,11 +100,8 @@ void UGrabber::SetupInputComponent()
 {
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
 	if (InputComponent)
-	{
-		// Input Component is found
-		UE_LOG(LogTemp, Warning, TEXT("InputComponent Found!"))
+	{		
 			/// Bind Input axis
-
 		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
 		InputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Release);
 		InputComponent->BindAction("DebugLine", IE_Pressed, this, &UGrabber::ActivateDebug);

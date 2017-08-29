@@ -55,6 +55,6 @@ private:
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotation;
 	FVector LineTraceEnd;
-	bool isDebugActive = false;
+	bool isDebugActive;
 
 };

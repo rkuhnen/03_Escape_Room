@@ -6,5 +6,9 @@
 EscapeRoom/Content/StarterContent/Textures
 EscapeRoom/Content/StarterContent/HDRI
 EscapeRoom/Content/StarterContent/Audio
+
+
 *.VC.db
 *.suo
+*.VC.opendb
+*.sln
