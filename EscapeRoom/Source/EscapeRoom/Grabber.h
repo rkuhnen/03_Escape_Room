@@ -32,6 +32,8 @@ private:
 	// Get Player viewpoint
 	void GetPlayerViewPoint();
 
+	// Find attached physics
+	void FindPhysicsHandleComponent();
 	
 
 	// Raycast and grab what's in reach.
@@ -42,9 +44,6 @@ private:
 
 	// Activate debug line
 	void ActivateDebug();
-
-	// Find attached physics
-	void FindPhysicsHandleComponent();
 
 	// Setup (assumed) attached Input Component
 	void SetupInputComponent();

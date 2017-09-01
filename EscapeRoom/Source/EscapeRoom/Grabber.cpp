@@ -37,6 +37,17 @@ void UGrabber::GetPlayerViewPoint()
 	LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
 }
 
+
+void UGrabber::FindPhysicsHandleComponent()
+{
+	///Look for attached Physics handle
+	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	if (PhysicsHandle == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s Has no Physics Handle."), *(GetOwner()->GetName()));
+	}
+}
+
 void UGrabber::Grab()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grab Key Pressed!"))
@@ -49,6 +60,7 @@ void UGrabber::Grab()
 	/// If we hit something, then attach a physics handle.
 	if (ActorHit)
 	{
+		if (!PhysicsHandle) { return; }
 		UE_LOG(LogTemp, Warning, TEXT("ACTOR HIT SUCCESSFULL!"))
 		//  attach physics handle
 		PhysicsHandle->GrabComponent(ComponentToGrab, NAME_None, ComponentToGrab->GetOwner()->GetActorLocation(), true);
@@ -61,6 +73,7 @@ void UGrabber::Grab()
 
 void UGrabber::Release()
 {
+	if (!PhysicsHandle) { return; }
 	UE_LOG(LogTemp, Warning, TEXT("Grab Key Released!"))
 
 		//  release physics handle
@@ -86,15 +99,6 @@ void UGrabber::ActivateDebug()
 
 
 
-void UGrabber::FindPhysicsHandleComponent()
-{
-	///Look for attached Physics handle
-	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	if (PhysicsHandle == nullptr)
-	{
-		UE_LOG(LogTemp, Error, TEXT("%s Has no Physics Handle."), *(GetOwner()->GetName()));
-	}
-}
 
 void UGrabber::SetupInputComponent()
 {
@@ -119,6 +123,9 @@ void UGrabber::SetupInputComponent()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (!PhysicsHandle) { return; }
+
 	GetPlayerViewPoint();
 	// if physics handle is attached
 	if (PhysicsHandle->GrabbedComponent)
